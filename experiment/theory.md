@@ -16,6 +16,7 @@ The tertiary structure of RNA refers to its three-dimensional (3D) conformation,
 
 
 
+<img src="images/1.png" title="" />
 
 
 
@@ -42,6 +43,10 @@ The Nussinov algorithm starts by creating a two-dimensional matrix M(i, j) for a
 The algorithm then uses a recurrence relation to determine how many base pairs can be formed within a given subsequence. It considers different possibilities like leaving a nucleotide unpaired (i.e.skipping a position in the sequence), pairing nucleotide i with nucleotide j, if they are complementary (A-U, G-C, or G-U),Splitting the sequence into smaller subproblems and solving them recursively to maximize the total number of base pairs.
 
 Mathematically, the recurrence relation is:
+
+<img src="images/2.png" title="" />
+
+
 This step ensures that the structure formed is as stable as possible, based on the number of base pairs.
 
 #### Step 3: Matrix Filling
@@ -71,6 +76,7 @@ Applying the Nussinov algorithm step by step to predict its secondary structure.
 Create an n×n matrix, where n is the length of the RNA sequence (in this case, 6). The matrix represents all possible subsequences of the RNA, and initially, all values are set to 0. The matrix layout looks like this:
     
                                        
+<img src="images/3.png" title="" />
 
 
 
@@ -101,6 +107,7 @@ The updated matrix will be:
 
 
 
+<img src="images/4.png" title="" />
 
 
 
@@ -127,6 +134,7 @@ The Final Matrix will be:
        
 
 
+<img src="images/5.png" title="" />
 
 
 
