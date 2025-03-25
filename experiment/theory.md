@@ -1,4 +1,4 @@
-### ### Introduction
+### Introduction
 The central dogma of molecular biology states that the genetic information of an organism is transferred from Deoxyribonucleic Acid (DNA) to Ribonucleic Acid (RNA) and then to Proteins which was initially believed as primary function of RNA. However, extensive molecular research on genetic material has revealed that RNA plays a diverse range of roles, particularly through non-coding RNAs (ncRNAs). In 1978, Stark et al. discovered one of the first examples of a small RNA involved in the regulation of gene expression. This RNA, later classified as a small nuclear RNA (snRNA), was found to play a crucial role in RNA splicing. Specifically, snRNAs are components of the spliceosome, the cellular machinery responsible for processing precursor mRNA (pre-mRNA) into mature mRNA by removing introns. This discovery was foundational in understanding the role of non-coding RNAs in post-transcriptional gene regulation and RNA processing leading to the identification of various functional ncRNAs that regulate transcription, translation, RNA modification, and gene expression. These regulatory ncRNAs are critical for biological processes such as immune response, neuronal differentiation, and muscle development.
 
 ### RNA structure, Folding and Stability
@@ -143,7 +143,7 @@ The Final Matrix will be:
 
 The maximum number of base pairs is 3, found in M (1,6).
 
-1.	Traceback to Find the Optimal Secondary Structure:  Reconstruct the secondary structure by trace backing from M (1,6).
+Traceback to Find the Optimal Secondary Structure:  Reconstruct the secondary structure by trace backing from M (1,6).
 
 
 G (1) pairs with C (5) → (G, C)
