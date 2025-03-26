@@ -2,38 +2,73 @@
   "version": 2.0,
   "questions": [
     {
-      "question": "This is a Sample Question 1?",
+      "question": "1. RNA secondary structure is formed by",
       "answers": {
-        "a": "answer1",
-        "b": "answer2",
-        "c": "answer3",
-        "d": "answer4"
+        "a": "The linear sequence of nucleotides in RNA",
+        "b": "The three-dimensional conformation of RNA",
+        "c": "The folding pattern formed by base-pairing interactions within RNA",
+        "d": "The process of RNA being transcribed from DNA"
       },
-      "explanations": {
-        "a": "Explanation 1  <a href='www.google.com'>here</a>",
-        "b": "Explanation 2",
-        "c": "Explanation 2",
-        "d": "Explanation 2"
-      },
-      "correctAnswer": "a",
+      
+      "correctAnswer": "c",
       "difficulty": "beginner"
     },
+
     {
-      "question": "This is a Sample Question 2?",
+      "question": "2. The difference between RNA from DNA in terms of structure is",
       "answers": {
-        "a": "answer1",
-        "b": "answer2",
-        "c": "answer3",
-        "d": "answer4"
+        "a": "RNA is double-stranded, while DNA is single-stranded",
+        "b": "RNA contains thymine instead of uracil",
+        "c": "RNA does not play a role in protein synthesis",
+        "d": "RNA has a ribose sugar instead of deoxyribose"
       },
-      "explanations": {
-        "a": "Explanation 1  <a href='www.google.com'>here</a>",
-        "b": "Explanation 2",
-        "c": "Explanation 2",
-        "d": "Explanation 2"
+      
+      "correctAnswer": "d",
+      "difficulty": "beginner"
+    },
+
+
+
+
+    {
+      "question": "3. The base pairs are considered Watson-Crick pairs in RNA is:",
+      "answers": {
+        "a": "A-T and G-C",
+        "b": "A-U and G-C",
+        "c": "A-C and G-U",
+        "d": "T-U and C-G"
       },
-      "correctAnswer": "c",
+      
+      "correctAnswer": "b",
+      "difficulty": "beginner"
+    },
+
+
+    {
+      "question": "4. RNA secondary structure prediction important because",
+      "answers": {
+        "a": "It helps in understanding RNA function and interactions",
+        "b": "It is essential for designing RNA-based drugs and therapies",
+        "c": "It aids in studying RNA-protein interactions",
+        "d": "All of the above"
+      },
+      
+      "correctAnswer": "d",
+      "difficulty": "beginner"
+    },
+
+    {
+      "question": "The factors contributes to RNA tertiary structure stability is:",
+      "answers": {
+        "a": "Base stacking interactions",
+        "b": "Hydrogen bonding and metal ion coordination",
+        "c": "Coaxial stacking of helices",
+        "d": "All of the above"
+      },
+      
+      "correctAnswer": "d",
       "difficulty": "beginner"
     }
   ]
 }
+
