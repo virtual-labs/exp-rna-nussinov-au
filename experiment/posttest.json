@@ -2,36 +2,67 @@
   "version": 2.0,
   "questions": [
     {
-      "question": "This is a Sample Question 1?",
+      "question": "1. The main goal of the Nussinov algorithm is to:",
       "answers": {
-        "a": "answer1",
-        "b": "answer2",
-        "c": "answer3",
-        "d": "answer4"
+        "a": "To predict the tertiary structure of RNA",
+        "b": "To find the RNA sequence that codes for a specific protein",
+        "c": "To maximize the number of base pairs in an RNA secondary structure",
+        "d": "To determine the DNA sequence complementary to RNA"
       },
-      "explanations": {
-        "a": "Explanation 1  <a href='www.google.com'>here</a>",
-        "b": "Explanation 2",
-        "c": "Explanation 2",
-        "d": "Explanation 2"
+
+      "correctAnswer": "c",
+      "difficulty": "beginner"
+    },
+
+    {
+      "question": "2. The purpose of the traceback step in the Nussinov algorithm is",
+      "answers": {
+        "a": "To determine the thermodynamic stability of RNA",
+        "b": "To reconstruct the predicted RNA secondary structure",
+        "c": "To generate a random sequence of RNA bases",
+        "d": "To optimize the length of RNA sequences"
       },
+
+      "correctAnswer": "b",
+      "difficulty": "beginner"
+    },
+
+
+    {
+      "question": "3. The time complexity of the Nussinov algorithm is:",
+      "answers": {
+        "a": "O(n)",
+        "b": "O(n2)",
+        "c": "O(n3)",
+        "d": "O(2n)"
+      },
+
+      "correctAnswer": "b",
+      "difficulty": "beginner"
+    },
+
+    {
+      "question": "4. The difference between Nussinov algorithm from Zuker’s algorithm is:",
+      "answers": {
+        "a": "Nussinov maximizes base pair formation, while Zuker minimizes free energy",
+        "b": "Nussinov predicts tertiary structure, while Zuker predicts secondary structure",
+        "c": "Nussinov does not use dynamic programming, while Zuker does",
+        "d": "Nussinov is used only for DNA folding, while Zuker is used for RNA"
+      },
+
       "correctAnswer": "a",
       "difficulty": "beginner"
     },
+
     {
-      "question": "This is a Sample Question 2?",
+      "question": "5. Given the RNA sequence G C A U C G, how many base pairs will be formed using the Nussinov algorithm?",
       "answers": {
-        "a": "answer1",
-        "b": "answer2",
-        "c": "answer3",
-        "d": "answer4"
+        "a": "1",
+        "b": "2",
+        "c": "3",
+        "d": "4"
       },
-      "explanations": {
-        "a": "Explanation 1  <a href='www.google.com'>here</a>",
-        "b": "Explanation 2",
-        "c": "Explanation 2",
-        "d": "Explanation 2"
-      },
+
       "correctAnswer": "c",
       "difficulty": "beginner"
     }
