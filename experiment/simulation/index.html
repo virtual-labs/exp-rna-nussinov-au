@@ -1,13 +1,471 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-	<!-- Add CSS at the head of HTML file -->
-    <link rel="stylesheet" href="./css/main.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mind Brain Center</title>
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+    <style>
+
+        #logo {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            width: 200px;  /* Adjust size */
+            height: auto;
+        }
+
+        .container {
+            max-width: 100%;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            background-color: whitesmoke;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+
+        }
+        
+        #sequence {
+            width: 100%;
+            height: 100px;
+            margin: auto;
+            padding: 5px;
+            box-sizing: border-box;
+            overflow: auto;
+            resize: vertical;
+            border: 2px solid #000000;
+            border-radius: 5px;
+        }
+
+        .file-section {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start; /* Align content to the left */
+            gap: 20px; /* Space between elements */
+            margin-top: 15px;
+            padding: 10px;
+            max-width: 100%; /* Ensure it does not overflow */
+            flex-wrap: wrap; /* Allow wrapping on small screens */
+        }
+
+        .contents{
+            text-align: left; /* Aligns text inside containers */
+            display: flex;
+            flex-direction: column; /* Keeps everything stacked */
+            align-items: flex-start; /* Aligns items to the left */
+        }
+
+        .step-btn{ 
+            width: 350px;
+            height: 50px;
+            font-size: large;
+            font-weight: bold;
+            border-radius: 20px;
+            padding: 10px 15px;
+            margin: 5px;
+            border: none;
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease-in-out;
+
+        }
+        .step-btn:hover{
+            background: #0c4684; /* Darker blue */
+            transform: scale(1.05);
+
+        }
+
+        .instruction-btn{
+            width: 100%;
+            background: #5356e5 ; /* Blue gradient */
+            color: rgb(255, 255, 255);
+            border: none;
+            box-sizing: border-box;
+            padding: 8px 12px; /* Reduced padding */
+            border-radius: 5px;
+            text-decoration: solid;
+            font-size: 20px;
+            text-align: left;
+            cursor: pointer;
+            transition-duration: 0.4s;
+        }
+
+        #instructionBox {
+            background-color: #f9f9f9;
+            border-radius: 5px;
+            padding: 10px;
+            margin-top: 5px;
+            text-align: left;
+        }
+
+        input[type="file"]::-webkit-file-upload-button {
+            background: #ffffff ; /* Blue gradient */
+            color: rgb(0, 0, 0);
+            border: solid 2px #000000;
+            padding: 8px 12px; /* Reduced padding */
+            border-radius: 5px;
+            cursor: pointer;
+            transition-duration: 0.4s;
+        }
+
+        /* Hover effect */
+        input[type="file"]::-webkit-file-upload-button:hover {
+            background-color: #000000;
+            color: white;
+        }
+        
+
+        #downloadSample {
+            text-decoration: underline;
+            color: #007bff;
+            cursor: pointer;
+            font-size: 16px;
+            transition: color 0.3s, transform 0.2s;
+            display: inline-block; /* Ensures proper positioning */
+        }
+
+        #resetButton {
+            background: #ffffff ; /* Blue gradient */
+            color: rgb(0, 0, 0);
+            border: solid 2px #000000;
+            padding: 8px 12px; /* Reduced padding */
+            border-radius: 5px;
+            cursor: pointer;
+            transition-duration: 0.4s;
+        }
+
+
+        body { font-family: Arial, sans-serif; text-align: center; }
+        svg { border: 1px solid black; }
+        table { margin: 20px auto; border-collapse: collapse; }
+        td, th { border: 1px solid black; padding: 5px; text-align: center; }
+    </style>
 </head>
 <body>
-		<!-- Your code goes here-->
 
-	<!-- Add JS at the bottom of HTML file --> 
-        <script src="./js/main.js"></script>
+
+    <div id="header">
+        <img src="https://webfiles.amrita.edu/2024/07/logo-branding-amrita-universiy-2024.svg" alt="Amrita University Logo" id="logo">
+        <h1 id="title">Nussinov Algorithm</h1>
+    </div>
+    
+        
+    <div class="container">
+
+        <button class="instruction-btn" onclick="toggleInstructions()">Instructions ▼</button>
+        <br>
+
+        <div id="instructionBox" style="display: none; border: 1px solid black; padding: 10px; margin-top: 5px;">
+            <h3>Follow these steps:</h3>
+            <ol>
+                <li><strong>Enter a RNA Sequence:</strong> Type or paste the RNA sequence in the text area.</li>
+                <li><strong>Upload a File (Optional):</strong> Click "Choose File" to upload a FASTA file.</li>
+                <li><strong>Click “Fill Matrix”:</strong> This processes the sequence and generates the scoring matrix.</li>
+                <li><strong>Click “Traceback”:</strong> Extracts the optimal RNA structure based on the computed matrix.</li>
+                <li><strong>Reset the Tool:</strong> Click the "Reset" button to clear the input field.</li>
+                <li><strong>View Instructions Anytime:</strong> Click "Show Instructions" to expand/collapse this guide.</li>
+                <li>In case of any error please reset the page.</li>
+            </ol>       
+         </div>
+
+    <p style="text-align: left;">Input:</p>   
+    <textarea id="sequence" placeholder="Enter RNA sequence"></textarea>
+
+    <div class="file-section">
+        <input type="file" id="fileInput" accept=".fasta">
+        <button id="resetButton" onclick="resetPage()">Reset</button>
+        <a href="#" id="downloadSample" onclick="downloadSample()">Download Sample</a> 
+    </div>
+
+    <div class="contents">
+        <button class="step-btn" onclick="fillMatrix()">Fill Matrix</button>
+        <div id="matrix-output"></div>
+
+        <button class="step-btn" onclick="tracebackPairs()">Traceback</button>
+        <div id="traceback-output"></div>
+
+        <button class="step-btn" onclick="generateDotBracketNotation()">Generate Dot-Bracket</button>
+        <div id="dot-bracket-output"></div>
+
+        <button class="step-btn" onclick="visualizeRNA()">Visualize RNA</button>
+        <svg id="visualization" width="600" height="400"></svg>
+        <br>
+        <button onclick="resetPage()">Reset</button>
+
+    </div>
+
+
+    </div>
+
+    <script>
+        let globalMatrix = null;
+        let globalPairs = [];
+        let globalDotBracket = "";
+
+        document.getElementById('fileInput').addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const text = e.target.result;
+                const sequence = parseFASTA(text);
+                document.getElementById('sequence').value = sequence;
+            };
+            reader.readAsText(file);
+        });
+
+        function toggleInstructions() {
+            const box = document.getElementById("instructionBox");
+            const button = document.querySelector(".instruction-btn");
+
+            if (box.style.display === "none" || box.style.display === "") {
+                box.style.display = "block";
+                button.innerHTML = "Instructions ▲";
+            } else {
+                box.style.display = "none";
+                button.innerHTML = "Instructions ▼";
+            }
+        }
+
+        function parseFASTA(fastaText) {
+            return fastaText.split('\n').slice(1).join('').replace(/[^AUCG]/g, '');
+        }
+        function downloadSample() {
+            const fastaContent = ">sample\nGGGAAAUCC"; 
+            const blob = new Blob([fastaContent], { type: 'text/plain' }); 
+            const element = document.createElement('a'); 
+
+            element.href = URL.createObjectURL(blob);
+            element.download = "sample.fasta"; 
+            document.body.appendChild(element); 
+            element.click(); 
+            document.body.removeChild(element); 
+            URL.revokeObjectURL(element.href); 
+        }
+        function isValidPair(b1, b2) {
+            return ['AU', 'UA', 'CG', 'GC', 'GU', 'UG'].includes(b1 + b2);
+        }
+
+        function fillMatrix() {
+            let sequence = document.getElementById("sequence").value.toUpperCase().replace(/[^AUCG]/g, '');
+            if (sequence.length === 0) {
+                alert("Invalid RNA sequence. Use only A, U, C, G.");
+                return;
+            }
+            
+            globalMatrix = nussinov(sequence);
+            displayMatrix(globalMatrix);
+        }
+
+        // Step 2: Traceback
+        function tracebackPairs() {
+            if (!globalMatrix) {
+                alert("Run 'Fill Matrix' first!");
+                return;
+            }
+
+            let sequence = document.getElementById("sequence").value.toUpperCase().replace(/[^AUCG]/g, '');
+            globalPairs = traceback(globalMatrix, sequence, 0, sequence.length - 1);
+            document.getElementById("traceback-output").innerText = globalPairs.map(p => `(${p[0]}, ${p[1]})`).join(" ");
+        }
+
+        // Step 3: Generate Dot-Bracket Notation
+        function generateDotBracketNotation() {
+            if (globalPairs.length === 0) {
+                alert("Run 'Traceback' first!");
+                return;
+            }
+
+            let sequence = document.getElementById("sequence").value.toUpperCase().replace(/[^AUCG]/g, '');
+            globalDotBracket = generateDotBracket(sequence, globalPairs);
+            document.getElementById("dot-bracket-output").innerText = globalDotBracket;
+        }
+
+        // Step 4: Visualize Structure
+        function visualizeRNA() {
+            if (!globalDotBracket) {
+                alert("Run 'Generate Dot-Bracket' first!");
+                return;
+            }
+
+            let sequence = document.getElementById("sequence").value.toUpperCase().replace(/[^AUCG]/g, '');
+            visualizeDotBracket(globalDotBracket, sequence);
+        }
+
+        function nussinov(sequence) {
+            let n = sequence.length;
+            let matrix = Array.from({ length: n }, () => Array(n).fill(0));
+
+            for (let d = 1; d < n; d++) {
+                for (let i = 0; i < n - d; i++) {
+                    let j = i + d;
+                    let match = (isValidPair(sequence[i], sequence[j]) ? 1 + (matrix[i+1]?.[j-1] || 0) : 0);
+                    let bifurcation = Math.max(...Array.from({ length: j - i }, (_, k) => (matrix[i][i + k] || 0) + (matrix[i + k + 1]?.[j] || 0)), 0);
+                    matrix[i][j] = Math.max(match, matrix[i + 1]?.[j] || 0, matrix[i]?.[j - 1] || 0, bifurcation);
+                }
+            }
+            return matrix;
+        }
+
+        function traceback(matrix, sequence, i, j) {
+            if (i >= j) return [];
+            if (matrix[i][j] === (matrix[i + 1]?.[j] || 0)) return traceback(matrix, sequence, i + 1, j);
+            if (matrix[i][j] === (matrix[i]?.[j - 1] || 0)) return traceback(matrix, sequence, i, j - 1);
+            if (isValidPair(sequence[i], sequence[j]) && matrix[i][j] === (matrix[i + 1]?.[j - 1] || 0) + 1) {
+                return [[i, j], ...traceback(matrix, sequence, i + 1, j - 1)];
+            }
+            for (let k = i + 1; k < j; k++) {
+                if (matrix[i][j] === (matrix[i][k] || 0) + (matrix[k + 1]?.[j] || 0)) {
+                    return [...traceback(matrix, sequence, i, k), ...traceback(matrix, sequence, k + 1, j)];
+                }
+            }
+            return [];
+        }
+
+        function generateDotBracket(sequence, pairs) {
+            let dotBracket = Array(sequence.length).fill('.');
+            pairs.forEach(([i, j]) => {
+                dotBracket[i] = '(';
+                dotBracket[j] = ')';
+            });
+            return dotBracket.join('');
+        }
+
+        function displayMatrix(matrix) {
+            let table = '<table><tr><th></th>';
+            for (let i = 0; i < matrix.length; i++) {
+                table += `<th>${i}</th>`;
+            }
+            table += '</tr>';
+            matrix.forEach((row, i) => {
+                table += `<tr><th>${i}</th>` + row.map(cell => `<td>${cell}</td>`).join('') + '</tr>';
+            });
+            table += '</table>';
+            document.getElementById("matrix-output").innerHTML = table;
+        }
+
+        function visualizeDotBracket(dotBracket, sequence) {
+            const width = 600, height = 400;
+
+            d3.select("#visualization").selectAll("*").remove();
+
+            const svg = d3.select("#visualization")
+                .attr("width", width)   
+                .attr("height", height)
+                .call(d3.zoom().scaleExtent([0.5, 3]) 
+                    .on("zoom", function (event) {
+                        svg.select("g").attr("transform", event.transform); 
+                    }))
+                .append("g");
+
+            svg.append("rect")
+                .attr("width", width)
+                .attr("height", height)
+                .attr("fill", "transparent")
+                .style("pointer-events", "all");
+
+            const g = svg.append("g"); 
+
+            const nodes = [];
+            const links = [];
+            const stack = [];
+
+            for (let i = 0; i < dotBracket.length; i++) {
+                nodes.push({ id: i, base: sequence[i], type: dotBracket[i] });
+
+                if (dotBracket[i] === '(') {
+                    stack.push(i);
+                } else if (dotBracket[i] === ')') {
+                    if (stack.length > 0) {
+                        let j = stack.pop();
+                        links.push({ source: j, target: i, type: "stem" });
+                    }
+                }
+            }
+
+            for (let i = 0; i < nodes.length - 1; i++) {
+                links.push({ source: i, target: i + 1, type: "backbone" });
+            }
+
+            const simulation = d3.forceSimulation(nodes)
+                .force("charge", d3.forceManyBody().strength(-100))
+                .force("link", d3.forceLink(links).distance(40).id(d => d.id))
+                .force("center", d3.forceCenter(width / 2, height / 2))
+                .force("collision", d3.forceCollide().radius(15));
+
+            const link = g.append("g")
+                .selectAll("line")
+                .data(links)
+                .enter().append("line")
+                .attr("stroke", d => d.type === "stem" ? "red" : "gray")
+                .attr("stroke-width", d => d.type === "stem" ? 2 : 1);
+
+            const node = g.append("g")
+                .selectAll("circle")
+                .data(nodes)
+                .enter().append("circle")
+                .attr("r", 10)
+                .attr("fill", d => d.type === "." ? "blue" : "green")
+                .call(drag(simulation));
+
+            const labels = g.append("g")
+                .selectAll("text")
+                .data(nodes)
+                .enter().append("text")
+                .attr("dy", 4) 
+                .attr("dx", 12) 
+                .attr("font-size", "12px")
+                .attr("fill", "black")
+                .text(d => `${d.base} (${d.id})`); 
+
+            simulation.on("tick", () => {
+                link.attr("x1", d => d.source.x)
+                    .attr("y1", d => d.source.y)
+                    .attr("x2", d => d.target.x)
+                    .attr("y2", d => d.target.y);
+
+                node.attr("cx", d => d.x)
+                    .attr("cy", d => d.y);
+
+                labels.attr("x", d => d.x + 12) 
+                    .attr("y", d => d.y + 4);
+            });
+
+            function drag(simulation) {
+                return d3.drag()
+                    .on("start", event => {
+                        if (!event.active) simulation.alphaTarget(0.3).restart();
+                        event.subject.fx = event.subject.x;
+                        event.subject.fy = event.subject.y;
+                    })
+                    .on("drag", event => {
+                        event.subject.fx = event.x;
+                        event.subject.fy = event.y;
+                    })
+                    .on("end", event => {
+                        if (!event.active) simulation.alphaTarget(0);
+                        event.subject.fx = null;
+                        event.subject.fy = null;
+                    });
+            }
+        }
+    function resetPage() {
+        document.getElementById("sequence").value = "";
+        document.getElementById("fileInput").value = "";
+        document.getElementById("matrix-output").innerHTML = "";
+        document.getElementById("traceback-output").innerHTML = "";
+        document.getElementById("dot-bracket-output").innerText = "";
+        d3.select("#visualization").selectAll("*").remove();
+
+        // Reset global variables
+        globalMatrix = null;
+        globalPairs = [];
+        globalDotBracket = "";
+    }
+
+    </script>
 </body>
 </html>
+
